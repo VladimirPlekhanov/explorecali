@@ -30,10 +30,10 @@ public class Tour {
     @Column
     private Integer price;
 
-    @Column(length = 2000)
+    @Column
     private String duration;
 
-    @Column
+    @Column(length = 2000)
     private String bullets;
 
     @Column

@@ -1,12 +1,14 @@
 package com.example.ec.domain;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import java.util.Objects;
 
 /**
  * A classification of tours
  */
+@Entity
 public class TourPackage {
 
     @Id

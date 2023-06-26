@@ -9,16 +9,22 @@ import com.example.ec.service.TourPackageService;
 import com.example.ec.service.TourService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ExplorecaliApplication implements CommandLineRunner {
+
+    @Value("${ec.importfile}")
+    private String importFile;
 
     @Autowired
     private TourPackageService tourPackageService;
@@ -31,13 +37,14 @@ public class ExplorecaliApplication implements CommandLineRunner {
         SpringApplication.run(ExplorecaliApplication.class, args);
     }
 
-    private void loadToursAtStartup() throws IOException {
+    @Override
+    public void run(String... args) throws Exception {
         //Create the Tour Packages
         createTourPackages();
-        long numOfPackages = tourPackageService.total();
+        long numOfTourPackages = tourPackageService.total();
 
         //Load the tours from an external Json File
-        createTours("ExploreCalifornia.json");
+        createTours(importFile);
         long numOfTours = tourService.total();
     }
 
@@ -64,36 +71,30 @@ public class ExplorecaliApplication implements CommandLineRunner {
      */
     private void createTours(String fileToImport) throws IOException {
         TourFromFile.read(fileToImport)
-            .forEach(importedTour -> tourService.createTour(importedTour.getTitle(),
-                importedTour.getDescription(),
-                importedTour.getBlurb(),
-                importedTour.getPrice(),
-                importedTour.getLength(),
-                importedTour.getBullets(),
-                importedTour.getKeywords(),
-                importedTour.getPackageType(),
-                importedTour.getDifficulty(),
-                importedTour.getRegion()));
-    }
-
-    @Override
-    public void run(String... args) throws Exception {
-
+                .forEach(importedTour -> tourService.createTour(importedTour.getTitle(),
+                        importedTour.getDescription(),
+                        importedTour.getBlurb(),
+                        importedTour.getPrice(),
+                        importedTour.getLength(),
+                        importedTour.getBullets(),
+                        importedTour.getKeywords(),
+                        importedTour.getPackageType(),
+                        importedTour.getDifficulty(),
+                        importedTour.getRegion()));
     }
 
     /**
      * Helper class to import ExploreCalifornia.json
      */
     private static class TourFromFile {
-
         //fields
         private String packageType, title, description, blurb, price, length, bullets, keywords, difficulty, region;
 
         //reader
         static List<TourFromFile> read(String fileToImport) throws IOException {
-            return new ObjectMapper().setVisibility(FIELD, ANY)
-                .readValue(new FileInputStream(fileToImport), new TypeReference<List<TourFromFile>>() {
-                });
+            return new ObjectMapper().setVisibility(FIELD, ANY).
+                    readValue(new FileInputStream(fileToImport), new TypeReference<List<TourFromFile>>() {
+                    });
         }
 
         protected TourFromFile() {
