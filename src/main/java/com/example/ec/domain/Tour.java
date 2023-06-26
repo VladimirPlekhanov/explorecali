@@ -9,7 +9,7 @@ import jakarta.persistence.ManyToOne;
 import java.util.Objects;
 
 /**
- * All attributes of a tour to explore California Tour.
+ * All attributes of a tour to explore California Tour
  */
 @Entity
 public class Tour {

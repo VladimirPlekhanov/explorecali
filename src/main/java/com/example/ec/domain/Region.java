@@ -1,7 +1,7 @@
 package com.example.ec.domain;
 
 /**
- * Enumeration of the region of California.
+ * Enumeration of the region of California
  */
 public enum Region {
     Central_Coast("Central Coast"), Southern_California("Southern California"), Northern_California(

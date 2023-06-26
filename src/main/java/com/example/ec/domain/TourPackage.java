@@ -5,7 +5,7 @@ import jakarta.persistence.Id;
 import java.util.Objects;
 
 /**
- * A classification of tours.
+ * A classification of tours
  */
 public class TourPackage {
 
