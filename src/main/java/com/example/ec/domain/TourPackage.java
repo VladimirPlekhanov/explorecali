@@ -2,6 +2,7 @@ package com.example.ec.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
+import java.util.Objects;
 
 /**
  * A classification of tours.
@@ -22,4 +23,33 @@ public class TourPackage {
         this.name  = name;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "TourPackage{" +
+            "code='" + code + '\'' +
+            ", name='" + name + '\'' +
+            '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TourPackage that = (TourPackage) o;
+        return Objects.equals(code, that.code) &&
+            Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(code, name);
+    }
 }
