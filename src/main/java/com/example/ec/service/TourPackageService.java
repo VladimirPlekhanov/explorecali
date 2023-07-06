@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class TourPackageService {
-    TourPackageRepository tourPackageRepository;
+    private TourPackageRepository tourPackageRepository;
 
     @Autowired
     public TourPackageService(TourPackageRepository tourPackageRepository) {
@@ -26,7 +26,7 @@ public class TourPackageService {
      */
     public TourPackage createTourPackage(String code, String name) {
         return tourPackageRepository.findById(code)
-            .orElse(tourPackageRepository.save(new TourPackage(code, name)));
+                .orElse(tourPackageRepository.save(new TourPackage(code, name)));
     }
 
     /**
